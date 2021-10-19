@@ -19,6 +19,8 @@ function all_post($conn)
 }
 
 
+
+
 function popular_posts($conn)
 {
 
@@ -50,4 +52,31 @@ function get_comments($post_id)
     }
 
     return $posts;
+}
+
+function get_user_by_postid($postid, $conn)
+{
+    $sql = "SELECT `userid` FROM `posts` WHERE `id`='$postid' ";
+    
+    $query = $conn -> query($sql);
+
+    $user = $query->fetch_assoc();
+
+    if (! $user) {
+        die($conn -> error);
+    }
+
+    return $user['userid'];
+}
+
+function get_user_by_id($id, $conn)
+{
+    $sql = "SELECT * FROM `users` WHERE `id` = '$id'";
+    $query = $conn->query($sql);
+    if ($query)
+        $user = $query->fetch_assoc();
+    else
+        die($conn -> error);
+    
+    return $user;
 }

@@ -3,7 +3,7 @@
 require_once 'db_connect/connect.php';
 
 if (isset($_GET['userid']))
-    $userid = (int)$_GET['userid'];
+    $userid = $_GET['userid'];
 
 if (isset($_POST["submit"])) {
     
@@ -19,7 +19,7 @@ if (isset($_POST["submit"])) {
 
     } else {
       
-        $path = "blog.php?userid=$userid";
+        $path = "blog.php?userid={$userid}";
       
         header("location: $path");
     }
@@ -48,7 +48,7 @@ $conn -> close();
         <div class="w3-container">
           <textarea name="msg" cols="70" rows="10" placeholder="Enter text here..." required ></textarea>
         </div>
-        <input type="text" name="userid" value="<? $_GET['userid']; ?>" style="display:none">
+        <input type="text" name="userid" value="<?= $userid; ?>" style="display:none">
         <div class="w3-container" style="max-width: 100px">
           <input type="submit" class="w3-input" name="submit" value="submit">
         </div>

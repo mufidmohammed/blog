@@ -1,19 +1,23 @@
 <?php
 
-$postid = $_GET['id'];
+require_once 'db_connect/connect.php';
+require_once 'app.php';
 
-$msg = $_POST['msg'];
+$postid = $_POST['postid'];
+$userid = get_user_by_postid($postid, $conn);
 
-$sql = "INSERT INTO `comments`(`msg`, `postid`) VALUES ('$msg', '$postid')";
+$comment = $_POST['comment'];
+
+$sql = "INSERT INTO `comments`(`msg`, `postid`, `userid`) VALUES ('$comment', '$postid', '$userid')";
 
 // if user bypass client side validation and submit an
-// empty comment, return to homepage
-if (! $msg) {
-    header("location: public/index.php");
+// empty comment, return to comment section
+if (! $comment) {
+    header("location: show_comments.php?id={$postid}");
 }
 
 if (! $conn -> query($sql)) {
     die("An unexpected error occured : " . $conn->error);
 } else {
-    header("location: show_comments.php?id=$postid");
+    header("location: show_comments.php?id={$postid}");
 }

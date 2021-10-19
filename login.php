@@ -4,6 +4,7 @@ require_once 'db_connect/connect.php';
 
 if (isset($_POST['login']))
 {
+    
     $username = htmlspecialchars($_POST['username']);
     
     $password = htmlspecialchars($_POST['password']);

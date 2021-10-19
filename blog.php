@@ -3,9 +3,20 @@
 require_once 'db_connect/connect.php';
 require_once 'app.php';
 
-$userid = $_GET['userid'];
-
+if (isset($_GET['userid']))
+  $userid = $_GET['userid'];
+else if (isset($_GET['postid']))
+  $userid = get_user_by_postid($_GET['postid'], $conn);
+else
+  $userid = 0;
+  
 $posts = all_post($conn);
+$popular = popular_posts($conn);
+
+if ($userid !== 0)
+  $user = get_user_by_id($userid, $conn);
+else
+  $user = "";
 
 $conn->close();
 
@@ -34,7 +45,7 @@ and is wrapped around the whole page content, except for the footer in this exam
 </header>
 
 <div class="w3-container">
-  <?php echo "<a href=add_post.php?userid={$userid} class='w3-btn w3-card w3-light-grey'>Add Post</a>"; ?>
+  <a href="add_post.php?userid=<?= $userid; ?>" class='w3-btn w3-card w3-light-grey'>Add Post</a>
 </div>
 
 <!-- Grid -->
@@ -49,22 +60,24 @@ and is wrapped around the whole page content, except for the footer in this exam
   <div class="w3-card-4 w3-margin w3-white">
     <img src="images/woods.jpg" alt="Nature" style="width:100%">
     <div class="w3-container">
-      <h3><b><?php $post['title']; ?></b></h3>
-      <h5><span class="w3-opacity"> <? $post['date_posted']; ?></span></h5>
+      <h3><b><?= $post['title'] ?? ""; ?></b></h3>
+      <h5><span class="w3-opacity"> <?= $post['date_posted'] ?? ""; ?></span></h5>
     </div>
 
     <div class="w3-container">
-      <p><?php
-        $content = substr($post['msg'], 255);
-        echo $content;
+      <p>
+        <?php
+          // $content = substr($post['msg'], 255);
+          // echo $content;
+          echo $post['msg'];
         ?>
       </p>
       <div class="w3-row">
         <div class="w3-col m8 s12">
-          <p><button id="<?php 'all_post' . $key; ?>" class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
+          <p><button id="<?= 'all_post' . $key; ?>" class="w3-button w3-padding-large w3-white w3-border w3-disabled"><b>READ MORE »</b></button></p>
         </div>
         <div class="w3-col m4 w3-hide-small">
-          <p><span class="w3-padding-large w3-right"><li href="show_comments.php?id=$post['id']; "><b>Comments  </b></li> <span class="w3-tag">0</span></span></p>
+          <p><span class="w3-padding-large w3-right"><a href="show_comments.php?id=<?= $post['id']; ?>"><b>Comments  </b></a> <span class="w3-tag">0</span></p>
         </div>
       </div>
     </div>
@@ -101,10 +114,12 @@ and is wrapped around the whole page content, except for the footer in this exam
   <!-- About Card -->
   <div class="w3-card w3-margin w3-margin-top">
   <img src="images/avatar_g.jpg" style="width:100%">
+    <?php if ($user) : ?>
     <div class="w3-container w3-white">
-      <h4><b>My Name</b></h4>
-      <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+      <h4><b><?= $user['username'] ?? ""; ?></b></h4>
+      <p><?= $user['about'] ?? 'Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.' ?></p>
     </div>
+    <?php endif ?>
   </div><hr>
   
   <!-- Posts -->
@@ -115,22 +130,22 @@ and is wrapped around the whole page content, except for the footer in this exam
     <ul class="w3-ul w3-hoverable w3-white">
       <li class="w3-padding-16">
         <img src="images/workshop.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Lorem</span><br>
+        <span class="w3-large"><?= $popular['title'] ?? "Lorem"; ?></span><br>
         <span>Sed mattis nunc</span>
       </li>
       <li class="w3-padding-16">
         <img src="images/gondol.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Ipsum</span><br>
+        <span class="w3-large"><?= $popular['title'] ?? "Ipsum"; ?></span><br>
         <span>Praes tinci sed</span>
       </li> 
       <li class="w3-padding-16">
         <img src="images/skies.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Dorum</span><br>
+        <span class="w3-large"><?= $popular['title'] ?? "Dorum"; ?></span><br>
         <span>Ultricies congue</span>
       </li>   
       <li class="w3-padding-16 w3-hide-medium w3-hide-small">
         <img src="images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Mingsum</span><br>
+        <span class="w3-large"><?= $popular['title'] ?? "Mingsum"; ?></span><br>
         <span>Lorem ipsum dipsum</span>
       </li>  
     </ul>
