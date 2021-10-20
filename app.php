@@ -19,8 +19,6 @@ function all_post($conn)
 }
 
 
-
-
 function popular_posts($conn)
 {
 
@@ -38,20 +36,35 @@ function popular_posts($conn)
 
 }
 
-function get_comments($post_id)
+function get_comments($post_id, $conn)
 {
-    $sql = "SELECT * FROM `comments` WHERE `post_id` = '$post_id' ";
+    $sql = "SELECT `msg`, `likes` FROM `comments` WHERE `postid` = '$post_id' ";
 
     $data  = $conn -> query($sql);
 
-    $posts = [];
+    $comments = [];
 
     while ($row = $data -> fetch_assoc())
     {
-        $posts[] = $row;
+        $comments[] = $row;
     }
 
-    return $posts;
+    return $comments;
+}
+
+function num_comments($postid, $conn)
+{
+    // $sql = "SELECT COUNT(`id`) FROM `comments` WHERE `postid` = '$postid'"; 
+    $sql = "SELECT `id` FROM `comments` WHERE `postid` = '$postid'";
+
+    $data = $conn -> query($sql);
+    
+    $cnt = 0;
+    
+    while ($data->fetch_assoc())
+        $cnt++;
+
+    return $cnt;
 }
 
 function get_user_by_postid($postid, $conn)

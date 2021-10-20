@@ -3,13 +3,13 @@
 require_once "db_connect/connect.php";
 require_once "app.php";
 
+session_start();
+
 $postid = $_GET['id'];
 
-$userid = get_user_by_postid($postid, $conn);
+$userid = $_SESSION['userid'];
 
 $post_query = "SELECT `title`, `msg`, `likes` FROM `posts` WHERE `id` = '$postid' ";
-
-$comment_query = "SELECT `msg`, `likes` FROM `comments` WHERE `postid` = '$postid' ";
 
 $post_content = $conn -> query($post_query);
 
@@ -19,14 +19,7 @@ if ($post_content) {
     echo "An unexpected error occurred : " . $conn->error;
 }
 
-$comments_content = $conn -> query($comment_query);
-
-$comments = [];
-
-while ($row = $comments_content->fetch_assoc())
-{
-    $comments[] = $row;
-}
+$comments = get_comments($postid, $conn);
 
 ?>
 <!DOCTYPE html>
@@ -38,7 +31,7 @@ while ($row = $comments_content->fetch_assoc())
 <body>
   <div class="w3-margin"></div>
   <div class="w3-container">
-    <a href="blog.php?userid=<?= $userid; ?>" class='w3-btn w3-card w3-light-grey'>Back</a>
+    <a href="blog.php" class='w3-btn w3-card w3-light-grey'>Back</a>
   </div>
   <div class="w3-content" style="max-width:900px">
     <div class="w3-row">
@@ -60,9 +53,6 @@ while ($row = $comments_content->fetch_assoc())
               <input type="text" class="w3-input w3-border" name='comment' placeholder='Comment....' required >
               <input type="number" class="w3-input w3-border" name='postid' value="<?= $postid; ?>" style="display:none">
               <br />
-              <div style="display:none">
-                <input type="number" name="userid" value="<?= (int)$_GET['userid']; ?>" style="display:none">
-              </div>
               <input type="submit" name="Add" value="add_comment" class="w3-input w3-teal" />
             </form>
             <?php if ($comments) : ?>

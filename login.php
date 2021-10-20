@@ -2,25 +2,27 @@
 
 require_once 'db_connect/connect.php';
 
+session_start();
+
+$error = '';
+
 if (isset($_POST['login']))
 {
-    
     $username = htmlspecialchars($_POST['username']);
     
     $password = htmlspecialchars($_POST['password']);
 
-    $sql = "SELECT * FROM `users` WHERE `username`='$username' AND `password`='$password'";
+    $sql = "SELECT `id` FROM `users` WHERE `username`='$username' AND `password`='$password'";
 
     $query = $conn -> query($sql);
 
-    if (! empty($query)) {
-        $user = $query -> fetch_assoc();
-        $userid = (int)$user['id'];
-        $path = "blog.php?userid=$userid";
-        header("location: $path");
+    $user = $query->fetch_assoc();
+
+    if (isset($user['id'])) {
+        $_SESSION['userid'] = $user['id'];
+        header("location: blog.php");
     } else {
-      echo "An unexpected error occurred.";
-      // redirect to sign up page
+      $error = 'Username or password incorrect';
     }
 }
 
@@ -40,12 +42,13 @@ if (isset($_POST['login']))
     <form action="login.php" method="post" class="w3-container">
       <div class="w3-row">
         <label class="w3-text-teal"><b>Username</b></label>
-        <input type="text" name="username" class="w3-input w3-border w3-light-grey">
+        <input type="text" name="username" class="w3-input w3-border w3-light-grey" required >
       </div>
       <div class="w3-row">
         <label class="w3-text-teal"><b>Password</b></label>
-        <input type="password" name="password" class="w3-input w3-border w3-light-grey">
+        <input type="password" name="password" class="w3-input w3-border w3-light-grey" required >
       </div>
+      <div><small class="w3-text-red"><?= $error; ?></small></div>
       <div class="w3-row">
         <input type="submit" class="w3-input w3-teal" name="login" value="login">
       </div>

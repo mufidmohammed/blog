@@ -3,12 +3,9 @@
 require_once 'db_connect/connect.php';
 require_once 'app.php';
 
-if (isset($_GET['userid']))
-  $userid = $_GET['userid'];
-else if (isset($_GET['postid']))
-  $userid = get_user_by_postid($_GET['postid'], $conn);
-else
-  $userid = 0;
+session_start();
+
+$userid = $_SESSION['userid'];
   
 $posts = all_post($conn);
 $popular = popular_posts($conn);
@@ -18,7 +15,7 @@ if ($userid !== 0)
 else
   $user = "";
 
-$conn->close();
+// $conn->close();
 
 ?>
 
@@ -45,7 +42,7 @@ and is wrapped around the whole page content, except for the footer in this exam
 </header>
 
 <div class="w3-container">
-  <a href="add_post.php?userid=<?= $userid; ?>" class='w3-btn w3-card w3-light-grey'>Add Post</a>
+  <a href="add_post.php" class='w3-btn w3-card w3-light-grey'>Add Post</a>
 </div>
 
 <!-- Grid -->
@@ -77,7 +74,7 @@ and is wrapped around the whole page content, except for the footer in this exam
           <p><button id="<?= 'all_post' . $key; ?>" class="w3-button w3-padding-large w3-white w3-border w3-disabled"><b>READ MORE »</b></button></p>
         </div>
         <div class="w3-col m4 w3-hide-small">
-          <p><span class="w3-padding-large w3-right"><a href="show_comments.php?id=<?= $post['id']; ?>"><b>Comments  </b></a> <span class="w3-tag">0</span></p>
+          <p><span class="w3-padding-large w3-right"><a href="show_comments.php?id=<?= $post['id']; ?>"><b>Comments  </b></a> <span class="w3-tag"><?= num_comments($post['id'], $conn); ?></span></p>
         </div>
       </div>
     </div>
@@ -185,3 +182,5 @@ and is wrapped around the whole page content, except for the footer in this exam
 
 </body>
 </html>
+
+<?php $conn -> close(); ?>
