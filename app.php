@@ -1,85 +1,53 @@
 <?php
 
-function all_post($conn)
+declare(strict_types=1);
+
+require_once "db_connect/connect.php";
+
+function all_post($conn): array
 {
   	$sql = "SELECT * FROM `posts` WHERE 1";
   	
     $data = $conn -> query($sql);
   	
-    $posts = [];
-
-    while ($row = $data -> fetch_assoc())
-    {
-        $row['date_posted'] = date('M j Y', strtotime($row['date_posted']));
-    
-        $posts[] = $row;
-	}
+    $posts = $data->fetch_all(MYSQLI_ASSOC);
 
     return $posts;
 }
 
 
-function popular_posts($conn)
+function popular_posts($conn): array
 {
 
     $sql =  "SELECT `id`, `title`, `msg` FROM `posts` ORDER BY `likes` DESC LIMIT 4";
 
     $data = $conn -> query($sql);
 
-    $posts = [];
-
-    while ($row = $data -> fetch_assoc()) {
-        $posts[] = $row;
-    }
+    $posts = $data -> fetch_all(MYSQLI_ASSOC);
 
     return $posts;
-
 }
 
-function get_comments($post_id, $conn)
+function get_comments($post_id, $conn): array
 {
-    $sql = "SELECT `msg`, `likes` FROM `comments` WHERE `postid` = '$post_id' ";
+    $sql = "SELECT `id`, `msg`, `likes` FROM `comments` WHERE `postid` = '$post_id'";
 
     $data  = $conn -> query($sql);
 
-    $comments = [];
-
-    while ($row = $data -> fetch_assoc())
-    {
-        $comments[] = $row;
-    }
+    $comments = $data -> fetch_all(MYSQLI_ASSOC);
 
     return $comments;
 }
 
 function num_comments($postid, $conn)
 {
-    // $sql = "SELECT COUNT(`id`) FROM `comments` WHERE `postid` = '$postid'"; 
-    $sql = "SELECT `id` FROM `comments` WHERE `postid` = '$postid'";
+    $sql = "SELECT COUNT(`id`) FROM `comments` WHERE `postid` = '$postid'";
 
     $data = $conn -> query($sql);
     
-    $cnt = 0;
-    
-    while ($data->fetch_assoc())
-        $cnt++;
+    $result = $data -> fetch_array(MYSQLI_NUM);
 
-    return $cnt;
-}
-
-function get_user_by_postid($postid, $conn)
-{
-    $sql = "SELECT `userid` FROM `posts` WHERE `id`='$postid' ";
-    
-    $query = $conn -> query($sql);
-
-    $user = $query->fetch_assoc();
-
-    if (! $user) {
-        die($conn -> error);
-    }
-
-    return $user['userid'];
+    return $result[0];
 }
 
 function get_user_by_id($id, $conn)

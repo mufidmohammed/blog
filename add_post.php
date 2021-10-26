@@ -4,6 +4,10 @@ require_once 'db_connect/connect.php';
 
 session_start();
 
+if (! isset($_SESSION['userid'])) {
+	header('location: login.php');
+}
+
 $userid = $_SESSION['userid'];
 
 if (isset($_POST["submit"])) {

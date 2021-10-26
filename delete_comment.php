@@ -1,12 +1,23 @@
 <?php
 
-$sql = "DELETE FROM `comments` WHERE `userid`='$userid'";
+require_once 'db_connect/connect.php';
 
-if (! $conn -> query($sql))
-{
-	die('Error accessing database : ' . $conn -> error);
+session_start();
+
+if (! isset($_SESSION['userid'])) {
+	header('location: login.php');
 }
 
-$location = 'public/index.php';
+$id = $_GET['comment_id'];
+$userid = $_SESSION['userid'];
 
-header("location: $location");
+$sql = "DELETE FROM `comments` WHERE `userid`='$userid' AND `id`='$id'";
+
+$query = $conn -> query($sql);
+
+if ($conn -> connect_errno)
+{
+	die($conn -> error);
+}
+
+header("location: blog.php");

@@ -5,6 +5,10 @@ require_once 'app.php';
 
 session_start();
 
+if (! isset($_SESSION['userid'])) {
+	header('location: login.php');
+}
+
 $userid = $_SESSION['userid'];
   
 $posts = all_post($conn);
@@ -14,8 +18,6 @@ if ($userid !== 0)
   $user = get_user_by_id($userid, $conn);
 else
   $user = "";
-
-// $conn->close();
 
 ?>
 
@@ -69,6 +71,9 @@ and is wrapped around the whole page content, except for the footer in this exam
           echo $post['msg'];
         ?>
       </p>
+      <?php if($post['userid'] === $userid): ?>
+        <p><a href="delete_post.php?postid=<?= $post['id']; ?>">delete</a></p>
+      <?php endif ?>
       <div class="w3-row">
         <div class="w3-col m8 s12">
           <p><button id="<?= 'all_post' . $key; ?>" class="w3-button w3-padding-large w3-white w3-border w3-disabled"><b>READ MORE »</b></button></p>

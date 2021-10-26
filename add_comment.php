@@ -3,9 +3,15 @@
 require_once 'db_connect/connect.php';
 require_once 'app.php';
 
+session_start();
+
+if (! isset($_SESSION['userid'])) {
+	header('location: login.php');
+}
+
 $postid = $_POST['postid'];
 
-$userid = get_user_by_postid($postid, $conn);
+$userid = $_SESSION['userid'];
 
 $comment = $_POST['comment'];
 
@@ -16,7 +22,9 @@ if (! $comment) {
     header("location: show_comments.php?id={$postid}");
 }
 
-if (! $conn -> query($sql)) {
+$query = $conn -> query($sql);
+
+if ($conn->connect_errno) {
     die("An unexpected error occured : " . $conn->error);
 } else {
     header("location: show_comments.php?id={$postid}");

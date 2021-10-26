@@ -5,6 +5,10 @@ require_once "app.php";
 
 session_start();
 
+if (! isset($_SESSION['userid'])) {
+	header('location: login.php');
+}
+
 $postid = $_GET['id'];
 
 $userid = $_SESSION['userid'];
@@ -62,7 +66,11 @@ $comments = get_comments($postid, $conn);
                   <div class="w3-container">
                     <p><?= $comment['msg'] ?? "No comments yet"; ?></p>
                     <div class="w3-row">
-                      <p><span class="w3-padding w3-left">likes: <?= $comment['likes'] ?? ""; ?></span> <span class="w3-padding-large w3-right"><?= $comment['date_posted'] ?? ""; ?></span></p>
+                      <p>
+                        <span class="w3-padding w3-left">likes: <?= $comment['likes'] ?? ""; ?></span>
+                        <span><a href="delete_comment.php?comment_id=<?= $comment['id']; ?>">delete</a></span>
+                        <span class="w3-padding-large w3-right"><?= $comment['date_posted'] ?? ""; ?></span>
+                      </p>
                     </div>
                   </div>
                 </div>
