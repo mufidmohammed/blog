@@ -123,6 +123,9 @@ if (isset($_POST['signup']))
   <link rel="stylesheet" type="text/css" href="static/w3.css" >
 </head>
 <body>
+  <div class="w3-right w3-margin">
+    <a href="login.php" class="w3-link"><span class="w3-btn w3-teal">Login</span></a>
+  </div>
   <div style="margin:50px;"></div>
   <div class="w3-content" style="max-width:50%">
     <div class="container w3-teal w3-padding">
@@ -130,51 +133,51 @@ if (isset($_POST['signup']))
     </div>
     <form action="<?= $_SERVER['PHP_SELF']; ?>" method="POST">
       <div class="w3-row">
-        <label><b>First name</b></label>
+        <label class="w3-text-teal">First name</label>
         <input type="text" name="firstName" class="w3-input w3-border w3-light-grey" placeholder="First name" required>
         <small class="w3-text-danger"> <?= $error['firstName']; ?> </small>
       </div>
 
       <div class="w3-row">
-        <label><b>Last name</b></label>
+        <label class="w3-text-teal">Last name</label>
         <input type="text" class="w3-input w3-light-grey" name="lastName" placeholder="Last name" required>
         <small class="w3-text-danger"> <?= $error['lastName'] ?> </small>
       </div>
 
       <div class="w3-row">
-        <label><b>Middle name</b></label>
+        <label class="w3-text-teal">Middle name</label>
         <input type="text" name="middleName" placeholder="Middle name" class="w3-input w3-light-grey" >
         <small class="w3-text-danger"> <?= $error['middleName'] ?> </small>
       </div>
 
       <div class="w3-row">
-      <label><b>Username</b></label>
+      <label class="w3-text-teal">Username</label>
       <input type="text" name="username" placeholder="Username" class="w3-input w3-light-grey" required>
       <small class="w3-text-danger"> <?= $error['username'] ?> </small>
       </div>
 
       <div class="w3-row">
-        <label><b>Email</b></label>
+        <label class="w3-text-teal">Email</label>
         <input type="text" name="email" placeholder="Enter Email" class="w3-input w3-light-grey" required>
         <small class="w3-text-danger"> <?= $error['email'] ?> </small>
       </div>
 
       <div class="w3-row">
-        <label><b>Password</b></label>
+        <label class="w3-text-teal">Password</label>
         <input type="password" placeholder="Enter Password" class="w3-input w3-light-grey" name="password_1" required>
       </div>
 
       <div class="w3-row">
-        <label><b>Repeat Password</b></label>
+        <label class="w3-text-teal">Repeat Password</label>
         <input type="password" placeholder="Repeat Password" name="password_2" class="w3-input w3-light-grey" required>
         <small class="w3-text-danger"> <?= $error['password'] ?> </small>
       </div>
 
       <div class="w3-row">
-        <label><b>About</b></label>
-        <textarea name="about" cols="40" rows="10" placeholder="Write something about yourself"></textarea>
+        <div class="w3-text-teal">About</div>
+        <textarea class="w3-input w3-border w3-light" name="about" cols="55" rows="10" placeholder="Write something about yourself"></textarea>
       </div>
-
+      <br>
       <div class="w3-row">
         <div class="clearfix">
           <button type="submit" class="w3-input w3-teal" name="signup" value="signup">Sign Up</button>

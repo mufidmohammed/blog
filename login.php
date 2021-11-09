@@ -56,10 +56,14 @@ if (isset($_POST['login']))
         <input type="password" name="password" class="w3-input w3-border w3-light-grey" required >
       </div>
       <div><small class="w3-text-red"><?= $error; ?></small></div>
+      <br>
       <div class="w3-row">
         <input type="submit" class="w3-input w3-teal" name="login" value="login">
       </div>
+      <br>
+      <div>Don't have an account? <a href="signup.php" class="w3-link"><span class="w3-btn w3-teal">signup</span></a></div>
     </form>
+    
   </div>
 </body>
 </html>
