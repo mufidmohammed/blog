@@ -11,17 +11,19 @@ if (! isset($_SESSION['userid'])) {
 $userid = $_SESSION['userid'];
 
 if (isset($_POST["submit"])) {
+
+    $title = $_POST['title'];
     
     $msg = $_POST['msg'];
 
-    $sql = "INSERT INTO `posts` (`msg`, `userid`) VALUES ('$msg', '$userid') ";
+    $sql = "INSERT INTO `posts` (`title`, `msg`, `userid`) VALUES ('$title', '$msg', '$userid')";
 
     if (! $conn -> query($sql) )
     {
         die("Could not update record : " . $conn->error);
 
     } else {
-        header("location: blog.php");
+        header("location: index.php");
     }
 }
 
@@ -36,7 +38,7 @@ $conn -> close();
 </head>
 <body>
   <div class="w3-container w3-margin-top">
-    <div class="w3-btn w3-light-grey"><a href="blog.php">Back</a></div>
+    <div class="w3-btn w3-light-grey"><a href="index.php">Back</a></div>
   </div>
   <div class="w3-content w3-center" style="max-width: 700px">
     <div class="w3-container">

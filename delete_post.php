@@ -12,17 +12,17 @@ $userid = (int)$_SESSION['userid'];
 
 $id = (int)$_GET['postid'];
 
-$query1 = $conn -> query("DELETE FROM `comments` WHERE `postid`='$id'");
+$conn -> query("DELETE FROM `comments` WHERE `postid`='$id'");
 
 if ($conn -> connect_errno) {
 	die('Error deleting comment : ' . $conn->connect_error);
 }
 
-$query2 = $conn -> query("DELETE FROM `posts` WHERE `id`='$id'");
+$conn -> query("DELETE FROM `posts` WHERE `id`='$id'");
 
 if ($conn->connect_errno)
 {
 	die('Error deleting post : ' . $conn -> error);
 }
 
-header("location: blog.php");
+header("location: index.php");

@@ -35,7 +35,7 @@ $comments = get_comments($postid, $conn);
 <body>
   <div class="w3-margin"></div>
   <div class="w3-container">
-    <a href="blog.php" class='w3-btn w3-card w3-light-grey'>Back</a>
+    <a href="index.php" class='w3-btn w3-card w3-light-grey'>Back</a>
   </div>
   <div class="w3-content" style="max-width:900px">
     <div class="w3-row">

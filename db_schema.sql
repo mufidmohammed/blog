@@ -8,7 +8,7 @@ CREATE TABLE `users` (
 	`username` varchar(20) NOT NULL,
 	`email` varchar(50) NOT NULL,
 	`password` varchar(20) NOT NULL,
-	`birthdate` datetime,
+	-- `birthdate` datetime,
 	`about` text
 );
 

@@ -13,11 +13,9 @@ $userid = $_SESSION['userid'];
 
 $sql = "DELETE FROM `comments` WHERE `userid`='$userid' AND `id`='$id'";
 
-$query = $conn -> query($sql);
-
-if ($conn -> connect_errno)
+if ($conn -> query($sql))
 {
+	header("location: index.php");
+} else {
 	die($conn -> error);
 }
-
-header("location: blog.php");

@@ -8,19 +8,26 @@ $error = '';
 
 if (isset($_POST['login']))
 {
-    $username = htmlspecialchars($_POST['username']);
-    
+    $username = htmlspecialchars($_POST['username']);    
     $password = htmlspecialchars($_POST['password']);
 
-    $sql = "SELECT `id` FROM `users` WHERE `username`='$username' AND `password`='$password'";
-
+    $sql = "SELECT `id`, `username`, `password` FROM `users` WHERE 1";
     $query = $conn -> query($sql);
 
-    $user = $query->fetch_assoc();
+    // compare usernames and 
+    // user password to hashed password
+    
+    while($users = $query->fetch_assoc())
+    {
+      if ($users['username'] === $username && password_verify($password, $users['password'])) {
+        $user_id = $users['id'];
+        break;
+      }
+    }
 
-    if (isset($user['id'])) {
-        $_SESSION['userid'] = $user['id'];
-        header("location: blog.php");
+    if (isset($user_id)) {
+        $_SESSION['userid'] = $user_id;
+        header("location: index.php");
     } else {
       $error = 'Username or password incorrect';
     }
@@ -55,3 +62,4 @@ if (isset($_POST['login']))
     </form>
   </div>
 </body>
+</html>
