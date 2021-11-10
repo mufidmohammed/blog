@@ -30,7 +30,7 @@ function popular_posts($conn): array
 
 function get_comments($post_id, $conn): array
 {
-    $sql = "SELECT `id`, `msg`, `likes` FROM `comments` WHERE `postid` = '$post_id'";
+    $sql = "SELECT `id`, `msg`, `likes`, `userid` FROM `comments` WHERE `postid` = '$post_id'";
 
     $data  = $conn -> query($sql);
 

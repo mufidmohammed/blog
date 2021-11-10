@@ -68,7 +68,9 @@ $comments = get_comments($postid, $conn);
                     <div class="w3-row">
                       <p>
                         <span class="w3-padding w3-left">likes: <?= $comment['likes'] ?? ""; ?></span>
-                        <span><a href="delete_comment.php?comment_id=<?= $comment['id']; ?>">delete</a></span>
+                        <?php if ($userid === $comment['userid']): ?>
+                          <span><a href="delete_comment.php?comment_id=<?= $comment['id']; ?>">delete</a></span>
+                        <?php endif ?>
                         <span class="w3-padding-large w3-right"><?= $comment['date_posted'] ?? ""; ?></span>
                       </p>
                     </div>
