@@ -2,6 +2,7 @@
 
 require_once "db_connect/connect.php";
 require_once "app.php";
+require_once "uploads.php";
 
 session_start();
 
@@ -41,11 +42,12 @@ $comments = get_comments($postid, $conn);
     <div class="w3-row">
       <div class="w3-col l8 s12 w3-center">
         <div class="w3-card w3-margin w3-white">
-          <!-- image -->
-          <img src="images/woods.jpg" alt="Nature" style="width:100%">
+          <?php if (get_image($postid)): ?>
+            <img src="<?= 'images/' . get_image($postid) ?>" alt="Nature" style="width:100%">
+          <?php endif ?>
           <div class="w3-container">
-            <h3><b><?= $post['title'] ?? ""; ?></b></h3>
-            <h5><span class="w3-opacity"><?= $post['date_posted'] ?? ""; ?></span></h5>
+            <h3><b><?= $post['title'] ?? "" ?></b></h3>
+            <h5><span class="w3-opacity"><?= $post['date_posted'] ?? "" ?></span></h5>
           </div>
 
           <div class="w3-container">

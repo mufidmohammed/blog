@@ -2,6 +2,8 @@
 
 require_once 'db_connect/connect.php';
 require_once 'app.php';
+require_once 'uploads.php';
+
 
 session_start();
 
@@ -14,10 +16,7 @@ $userid = $_SESSION['userid'];
 $posts = all_post($conn);
 $popular = popular_posts($conn);
 
-if ($userid !== 0)
-  $user = get_user_by_id($userid, $conn);
-else
-  $user = "";
+$user = get_user_by_id($userid, $conn);
 
 ?>
 
@@ -50,14 +49,16 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <!-- Blog entries -->
 <div class="w3-col l8 s12">
 
-<!-- Blog entries -->
 <?php foreach($posts as $key => $post) : ?>
   <!-- Blog entry -->
   <div class="w3-card-4 w3-margin w3-white">
-    <img src="images/woods.jpg" alt="Nature" style="width:100%">
+    <!-- Display blog image (if any) -->
+    <?php if (get_image($post['id'])): ?>
+      <img src="<?= 'images/' . get_image($post['id']) ?>" style="width:100%" alt="">
+    <?php endif ?>
     <div class="w3-container">
-      <h3><b><?= $post['title'] ?? ""; ?></b></h3>
-      <h5><span class="w3-opacity"> <?= $post['date_posted'] ?? ""; ?></span></h5>
+      <h3><b><?= $post['title'] ?? "" ?></b></h3>
+      <h5><span class="w3-opacity"> <?= $post['date_posted'] ?? "" ?></span></h5>
     </div>
 
     <div class="w3-container">
@@ -69,11 +70,11 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         ?>
       </p>
       <?php if($post['userid'] === $userid): ?>
-        <p><a href="delete_post.php?postid=<?= $post['id']; ?>">delete</a></p>
+        <p><a href="delete_post.php?postid=<?= $post['id'] ?>">delete</a></p>
       <?php endif ?>
       <div class="w3-row">
         <div class="w3-col m8 s12">
-          <p><button id="<?= 'all_post' . $key; ?>" class="w3-button w3-padding-large w3-white w3-border w3-disabled"><b>READ MORE »</b></button></p>
+          <p><button id="<?= 'all_post' . $key ?>" class="w3-button w3-padding-large w3-white w3-border w3-disabled"><b>READ MORE »</b></button></p>
         </div>
         <div class="w3-col m4 w3-hide-small">
           <p><span class="w3-padding-large w3-right"><a href="show_comments.php?id=<?= $post['id']; ?>"><b>Comments  </b></a> <span class="w3-tag"><?= num_comments($post['id'], $conn); ?></span></p>
@@ -83,28 +84,6 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </div>
   <hr>
 <?php endforeach ?>
-
-  <!-- Blog entry -->
-  <div class="w3-card-4 w3-margin w3-white">
-  <img src="images/bridge.jpg" alt="Norway" style="width:100%">
-    <div class="w3-container">
-      <h3><b>BLOG ENTRY</b></h3>
-      <h5>Title description, <span class="w3-opacity">April 2, 2014</span></h5>
-    </div>
-
-    <div class="w3-container">
-      <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
-        tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-      <div class="w3-row">
-        <div class="w3-col m8 s12">
-          <p><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></button></p>
-        </div>
-        <div class="w3-col m4 w3-hide-small">
-          <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-badge">2</span></span></p>
-        </div>
-      </div>
-    </div>
-  </div>
 <!-- END BLOG ENTRIES -->
 </div>
 
@@ -149,23 +128,7 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       </li>  
     </ul>
   </div>
-  <hr> 
- 
-  <!-- Labels / tags -->
-  <div class="w3-card w3-margin">
-    <div class="w3-container w3-padding">
-      <h4>Tags</h4>
-    </div>
-    <div class="w3-container w3-white">
-    <p><span class="w3-tag w3-black w3-margin-bottom">Travel</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">New York</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">London</span>
-      <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">IKEA</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">NORWAY</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">DIY</span>
-      <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Ideas</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Baby</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Family</span>
-      <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">News</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Clothing</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Shopping</span>
-      <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Sports</span> <span class="w3-tag w3-light-grey w3-small w3-margin-bottom">Games</span>
-    </p>
-    </div>
-  </div>
-  
+  <hr>   
 <!-- END Introduction Menu -->
 </div>
 
