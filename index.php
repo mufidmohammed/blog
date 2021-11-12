@@ -39,6 +39,10 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <p >Welcome to your personal blogging space</p>
 </header>
 
+<div class="w3-container w3-right">
+  <a href="logout.php" class='w3-btn w3-card w3-light-grey'>Logout</a>
+</div>
+
 <div class="w3-container">
   <a href="add_post.php" class='w3-btn w3-card w3-light-grey'>Add Post</a>
 </div>
