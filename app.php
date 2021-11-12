@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-require_once "db_connect/connect.php";
-
 function all_post($conn): array
 {
   	$sql = "SELECT * FROM `posts` ORDER BY `id` DESC";
