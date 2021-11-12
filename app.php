@@ -6,7 +6,7 @@ require_once "db_connect/connect.php";
 
 function all_post($conn): array
 {
-  	$sql = "SELECT * FROM `posts` WHERE 1";
+  	$sql = "SELECT * FROM `posts` ORDER BY `id` DESC";
   	
     $data = $conn -> query($sql);
   	

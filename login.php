@@ -11,17 +11,13 @@ if (isset($_POST['login']))
     $username = htmlspecialchars($_POST['username']);    
     $password = htmlspecialchars($_POST['password']);
 
-    $sql = "SELECT `id`, `username`, `password` FROM `users` WHERE 1";
+    $sql = "SELECT `id`, `password` FROM `users` WHERE `username` = '$username'";
     $query = $conn -> query($sql);
 
-    // compare usernames and 
-    // user password to hashed password
-    
-    while($users = $query->fetch_assoc())
-    {
-      if ($users['username'] === $username && password_verify($password, $users['password'])) {
-        $user_id = $users['id'];
-        break;
+    if ($query) {
+      $user = $query -> fetch_assoc();
+      if (password_verify($password, $user['password'])) {
+        $user_id = $user['id'];
       }
     }
 
