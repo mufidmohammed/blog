@@ -22,11 +22,12 @@ $user = get_user_by_id($userid, $conn);
 
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>Bloggers Hub</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="static/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
@@ -73,6 +74,17 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
           echo $post['msg'];
         ?>
       </p>
+      <div class="w3-row">
+        <form action="like.php" method="POST">
+          <span class="w3-padding w3-left">
+            <input type="number" name="postid" value="<?= $post['id'] ?>" style="display:none">
+            <button type="submit" class="w3-btn">
+              <i style="color: blue" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+            </button>
+            <span> <?= $post['likes'] ?></span>
+          </span>
+        </form>
+      </div>
       <?php if($post['userid'] === $userid): ?>
         <p><a href="delete_post.php?postid=<?= $post['id'] ?>">delete</a></p>
       <?php endif ?>

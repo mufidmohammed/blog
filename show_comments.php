@@ -32,6 +32,7 @@ $comments = get_comments($postid, $conn);
 <head>
   <title></title>
   <link rel="stylesheet" type="text/css" href="static/w3.css" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
   <div class="w3-margin"></div>
@@ -69,9 +70,18 @@ $comments = get_comments($postid, $conn);
                     <p><?= $comment['msg'] ?? "No comments yet"; ?></p>
                     <div class="w3-row">
                       <p>
-                        <span class="w3-padding w3-left">likes: <?= $comment['likes'] ?? ""; ?></span>
+                        <form action="like.php" method="POST">
+                          <span class="w3-padding w3-left">
+                            <input type="number" name="commentID" value="<?= $comment['id'] ?>" style="display:none">
+                            <input type="number" name="postid" value="<?= $postid ?>" style="display:none">
+                            <button type="submit" class="w3-btn">
+                              <i style="color: blue" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                            </button>
+                            <span> <?= $comment['likes'] ?? ""; ?></span>
+                          </span>
+                        </form>
                         <?php if ($userid === $comment['userid']): ?>
-                          <span><a href="delete_comment.php?comment_id=<?= $comment['id']; ?>">delete</a></span>
+                          <span><a class="w3-link" href="delete_comment.php?comment_id=<?= $comment['id']; ?>">delete</a></span>
                         <?php endif ?>
                         <span class="w3-padding-large w3-right"><?= $comment['date_posted'] ?? ""; ?></span>
                       </p>
