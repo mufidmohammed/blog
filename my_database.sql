@@ -34,7 +34,7 @@ CREATE TABLE `comments` (
   KEY `postid` (`postid`),
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`),
   CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`postid`) REFERENCES `posts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,8 +43,35 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (5,'This is the fist comment',3,5,1,'2021-10-18 07:15:59'),(11,'This is the second comment',0,5,1,'2021-10-18 16:57:14'),(16,' A test comment here',0,5,1,'2021-10-20 17:36:06'),(18,'A new comment',0,13,1,'2021-10-21 17:29:33'),(19,'Mark comments',0,5,3,'2021-11-09 19:55:06');
+INSERT INTO `comments` VALUES (5,'This is the fist comment',3,5,1,'2021-10-18 07:15:59'),(11,'This is the second comment',1,5,1,'2021-10-18 16:57:14'),(16,' A test comment here',0,5,1,'2021-10-20 17:36:06'),(18,'A new comment',0,13,1,'2021-10-21 17:29:33'),(19,'Mark comments',0,5,3,'2021-11-09 19:55:06'),(21,'This blogging hub is awesome',2,22,3,'2021-11-13 06:52:23');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `likes`
+--
+
+DROP TABLE IF EXISTS `likes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `referenceID` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`),
+  CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `likes`
+--
+
+LOCK TABLES `likes` WRITE;
+/*!40000 ALTER TABLE `likes` DISABLE KEYS */;
+INSERT INTO `likes` VALUES (2,5,3),(3,11,3),(6,21,3),(8,21,5),(9,22,5);
+/*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -74,7 +101,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (5,NULL,'lobortis mattis aliquam faucibus purus in. Viverra nam libero justo laoreet sit amet cursus sit amet. Sollicitudin nibh sit amet commodo nulla facilisi nullam.',0,NULL,1,'2021-09-30 12:25:45'),(10,NULL,'Lorem ipsum first post simmet ipsum lorem ls site dolllar',0,NULL,1,'2021-10-03 20:10:19'),(11,NULL,'Diam quis enim lobortis scelerisque fermentum dui faucibus in. In metus vulputate eu scelerisque. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Bibendum est ultricies integer quis auctor elit sed vulputate. Pharetra et ultrices neque ornare aenean euismod. Nunc lobortis mattis aliquam faucibus purus in. Viverra nam libero justo laoreet sit amet ',0,NULL,1,'2021-10-04 09:21:39'),(13,NULL,'Dignissim suspendisse in est ante in nibh mauris cursus mattis. Sit amet mattis vulputate enim. Accumsan sit amet nulla facilisi morbi tempus. Interdum varius sit amet mattis vulputate enim nulla aliquet porttitor. Eros in cursus turpis massa tincidunt dui ut ornare. Facilisis leo vel fringilla est ullamcorper eget. Semper feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit. Vulputate sapien nec sagittis aliquam malesuada bibendum. Quisque id diam vel quam elementum pulvinar etiam. Magna eget est lorem ipsum dolor',0,NULL,1,'2021-10-20 01:29:34'),(15,'My title','This is a titled post ipsum lorem sitta dolar amet',0,NULL,1,'2021-11-08 14:02:46'),(16,'Post by Mark','proin gravida hendrerit lectus a. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit. Vulputate sapien nec sagittis aliquam malesuada bibendum. Quisque id diam vel quam elementum pulvinar etiam. Magna eget est lorem ipsum dolor sit. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Nunc mattis enim',0,NULL,3,'2021-11-09 19:54:21'),(17,'Another post','By Mark andy ipsum ipsum lorem dolar',0,NULL,3,'2021-11-10 14:10:11'),(18,'My newest update','This post would contain a descriptive picture of what is being posted',0,NULL,5,'2021-11-11 06:21:46'),(22,'A pictured post','This is a post with a descriptive image',0,NULL,3,'2021-11-11 06:59:12');
+INSERT INTO `posts` VALUES (5,NULL,'lobortis mattis aliquam faucibus purus in. Viverra nam libero justo laoreet sit amet cursus sit amet. Sollicitudin nibh sit amet commodo nulla facilisi nullam.',0,NULL,1,'2021-09-30 12:25:45'),(10,NULL,'Lorem ipsum first post simmet ipsum lorem ls site dolllar',0,NULL,1,'2021-10-03 20:10:19'),(11,NULL,'Diam quis enim lobortis scelerisque fermentum dui faucibus in. In metus vulputate eu scelerisque. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Bibendum est ultricies integer quis auctor elit sed vulputate. Pharetra et ultrices neque ornare aenean euismod. Nunc lobortis mattis aliquam faucibus purus in. Viverra nam libero justo laoreet sit amet ',0,NULL,1,'2021-10-04 09:21:39'),(13,NULL,'Dignissim suspendisse in est ante in nibh mauris cursus mattis. Sit amet mattis vulputate enim. Accumsan sit amet nulla facilisi morbi tempus. Interdum varius sit amet mattis vulputate enim nulla aliquet porttitor. Eros in cursus turpis massa tincidunt dui ut ornare. Facilisis leo vel fringilla est ullamcorper eget. Semper feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit. Vulputate sapien nec sagittis aliquam malesuada bibendum. Quisque id diam vel quam elementum pulvinar etiam. Magna eget est lorem ipsum dolor',0,NULL,1,'2021-10-20 01:29:34'),(15,'My title','This is a titled post ipsum lorem sitta dolar amet',0,NULL,1,'2021-11-08 14:02:46'),(16,'Post by Mark','proin gravida hendrerit lectus a. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et. Blandit volutpat maecenas volutpat blandit aliquam etiam erat velit. Vulputate sapien nec sagittis aliquam malesuada bibendum. Quisque id diam vel quam elementum pulvinar etiam. Magna eget est lorem ipsum dolor sit. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Nunc mattis enim',0,NULL,3,'2021-11-09 19:54:21'),(17,'Another post','By Mark andy ipsum ipsum lorem dolar',0,NULL,3,'2021-11-10 14:10:11'),(18,'My newest update','This post would contain a descriptive picture of what is being posted',0,NULL,5,'2021-11-11 06:21:46'),(22,'A pictured post','This is a post with a descriptive image',1,NULL,3,'2021-11-11 06:59:12');
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-11 14:25:48
+-- Dump completed on 2021-11-13  8:22:55
