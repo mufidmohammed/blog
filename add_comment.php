@@ -13,18 +13,18 @@ $postid = $_POST['postid'];
 
 $userid = $_SESSION['userid'];
 
-$comment = $_POST['comment'];
-
-$sql = "INSERT INTO `comments`(`msg`, `postid`, `userid`) VALUES ('$comment', '$postid', '$userid')";
-
 // if empty comment, return to comment section
-if (! $comment) {
+if (! $_POST['comment']) {
     header("location: show_comments.php?id={$postid}");
 }
 
+$comment = $conn -> real_escape_string($_POST['comment']);
+
+$sql = "INSERT INTO `comments`(`msg`, `likes`, `postid`, `userid`) VALUES ('$comment', '0', '$postid', '$userid')";
+
 $query = $conn -> query($sql);
 
-if ($conn->connect_errno) {
+if ($conn->errno) {
     die("An unexpected error occured : " . $conn->error);
 } else {
     header("location: show_comments.php?id={$postid}");

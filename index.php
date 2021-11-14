@@ -22,15 +22,18 @@ $user = get_user_by_id($userid, $conn);
 
 <!DOCTYPE html>
 <html>
-<title>Bloggers Hub</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="static/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
+<head>
+  <title>Bloggers Hub</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="static/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+  body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+  </style>
+  <script src="js/ajax.js"></script>
+</head>
 <body class="w3-light-grey">
 
 <div class="w3-content" style="max-width:1400px">
@@ -69,19 +72,16 @@ body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <div class="w3-container">
       <p>
         <?php
-          // $content = substr($post['msg'], 255);
-          // echo $content;
           echo $post['msg'];
         ?>
       </p>
       <div class="w3-row">
-        <form action="like.php" method="POST">
+        <form>
           <span class="w3-padding w3-left">
-            <input type="number" name="postid" value="<?= $post['id'] ?>" style="display:none">
-            <button type="submit" class="w3-btn">
+            <div class="w3-btn" onclick="changeLikes('like.php?postid=', <?= $post['id'] ?>)">
               <i style="color: blue" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-            </button>
-            <span> <?= $post['likes'] ?></span>
+            </div>
+            <span id="<?= $post['id'] ?>"> <?= $post['likes'] ?></span>
           </span>
         </form>
       </div>

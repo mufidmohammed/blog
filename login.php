@@ -16,7 +16,8 @@ if (isset($_POST['login']))
 
     if ($query) {
       $user = $query -> fetch_assoc();
-      if (password_verify($password, $user['password'])) {
+      
+      if ($user && password_verify($password, $user['password'])) {
         $user_id = $user['id'];
       }
     }

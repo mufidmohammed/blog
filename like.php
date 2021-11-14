@@ -4,14 +4,17 @@ require_once 'db_connect/connect.php';
 
 session_start();
 
+if (! isset($_SESSION['userid']))
+  header('location: logout.php');
+
 $userid = $_SESSION['userid'];
 
-if (isset($_POST['commentID']))
+if (isset($_GET['commentID']))
 {
-  $referenceID = $_POST['commentID'];
+  $referenceID = $_GET['commentID'];
   $table = 'comments';
 } else {
-  $referenceID = $_POST['postid'];
+  $referenceID = $_GET['postid'];
   $table = 'posts';
 }
 
@@ -46,13 +49,14 @@ if ($result)
   $conn -> query("UPDATE $table SET `likes` = `likes` + 1 WHERE `id` = '$referenceID'");
 }
 
-// redirecting to the right page
-if (isset($_POST['commentID']))
-{
-  $postid = $_POST['postid'];
-  $location = "show_comments.php?id={$postid}";
-} else {
-  $location = 'index.php';
+// now get current number of likes
+$query = $conn -> query("SELECT `likes` FROM $table WHERE `id` = '$referenceID'");
+if ($conn -> errno) {
+  die($conn -> error);
 }
 
-header("location: {$location}");
+$result = $query -> fetch_assoc();
+
+$likes = $result['likes'];
+
+echo $likes;

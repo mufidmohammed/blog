@@ -8,14 +8,13 @@ if (! isset($_SESSION['userid'])) {
 	header('location: login.php');
 }
 
-$id = $_GET['comment_id'];
+$commentID = $_GET['commentID'];
+$postid = $_GET['postid'];
+
 $userid = $_SESSION['userid'];
 
-$sql = "DELETE FROM `comments` WHERE `userid`='$userid' AND `id`='$id'";
+$sql = "DELETE FROM `comments` WHERE `userid`='$userid' AND `id`='$commentID'";
 
-if ($conn -> query($sql))
-{
-	header("location: index.php");
-} else {
-	die($conn -> error);
-}
+$conn -> query($sql);
+
+header("location: show_comments.php?id={$postid}");

@@ -33,6 +33,7 @@ $comments = get_comments($postid, $conn);
   <title></title>
   <link rel="stylesheet" type="text/css" href="static/w3.css" >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="js/ajax.js"></script>
 </head>
 <body>
   <div class="w3-margin"></div>
@@ -67,23 +68,22 @@ $comments = get_comments($postid, $conn);
               <div class="w3-row">
                 <div class="w3-card w3-margin w3-white">
                   <div class="w3-container">
-                    <p><?= $comment['msg'] ?? "No comments yet"; ?></p>
+                    <p><?= $comment['msg'] ?></p>
                     <div class="w3-row">
                       <p>
-                        <form action="like.php" method="POST">
+                        <form>
                           <span class="w3-padding w3-left">
-                            <input type="number" name="commentID" value="<?= $comment['id'] ?>" style="display:none">
-                            <input type="number" name="postid" value="<?= $postid ?>" style="display:none">
-                            <button type="submit" class="w3-btn">
+                            <div class="w3-btn" onclick="changeLikes('like.php?commentID=', <?= $comment['id'] ?>)">
                               <i style="color: blue" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                            </button>
-                            <span> <?= $comment['likes'] ?? ""; ?></span>
+                            </div>
+                            <span id="<?= $comment['id'] ?>"> <?= $comment['likes'] ?></span>
                           </span>
                         </form>
                         <?php if ($userid === $comment['userid']): ?>
-                          <span><a class="w3-link" href="delete_comment.php?comment_id=<?= $comment['id']; ?>">delete</a></span>
+                          <span class="w3-btn w3-hover-red">
+                            <a class="w3-link" href="delete_comment.php?commentID=<?= $comment['id'] ?>&postid=<?= $postid ?>">delete</a>
+                          </span>
                         <?php endif ?>
-                        <span class="w3-padding-large w3-right"><?= $comment['date_posted'] ?? ""; ?></span>
                       </p>
                     </div>
                   </div>
