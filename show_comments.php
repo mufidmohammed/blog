@@ -35,7 +35,7 @@ $comments = get_comments($postid, $conn);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="js/ajax.js"></script>
 </head>
-<body>
+<body class="w3-light-grey">
   <div class="w3-margin"></div>
   <div class="w3-container">
     <a href="index.php" class='w3-btn w3-card w3-light-grey'>Back</a>
@@ -74,7 +74,7 @@ $comments = get_comments($postid, $conn);
                         <form>
                           <span class="w3-padding w3-left">
                             <div class="w3-btn" onclick="changeLikes('like.php?commentID=', <?= $comment['id'] ?>)">
-                              <i style="color: blue" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                              <i id="<?= 'likeBtn' . $comment['id'] ?>"style="color: <?= like_btn_color($comment['id'], $userid, $conn) ?>" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                             </div>
                             <span id="<?= $comment['id'] ?>"> <?= $comment['likes'] ?></span>
                           </span>

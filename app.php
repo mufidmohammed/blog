@@ -59,3 +59,15 @@ function get_user_by_id($id, $conn)
     
     return $user;
 }
+
+function like_btn_color($postid, $userid, $conn)
+{
+    $sql = "SELECT `id` FROM `likes` WHERE `referenceID` = '$postid' AND `userid` = '$userid'";
+    $query = $conn -> query($sql);
+
+    $result = $query -> fetch_assoc();
+    if ($result) {
+        return 'blue';
+    }
+    return 'black';
+}

@@ -79,7 +79,7 @@ $user = get_user_by_id($userid, $conn);
         <form>
           <span class="w3-padding w3-left">
             <div class="w3-btn" onclick="changeLikes('like.php?postid=', <?= $post['id'] ?>)">
-              <i style="color: blue" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+              <i id="<?= 'likeBtn' . $post['id'] ?>" style="color: <?= like_btn_color($post['id'], $userid, $conn) ?>" class="fa fa-thumbs-o-up" aria-hidden="true"></i>
             </div>
             <span id="<?= $post['id'] ?>"> <?= $post['likes'] ?></span>
           </span>
