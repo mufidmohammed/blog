@@ -8,8 +8,8 @@ $error = '';
 
 if (isset($_POST['login']))
 {
-    $username = htmlspecialchars($_POST['username']);    
-    $password = htmlspecialchars($_POST['password']);
+    $username = $conn -> real_escape_string($_POST['username']);
+    $password = $conn -> real_escape_string($_POST['password']);
 
     $sql = "SELECT `id`, `password` FROM `users` WHERE `username` = '$username'";
     $query = $conn -> query($sql);

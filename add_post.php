@@ -14,9 +14,9 @@ $image_error = '';
 
 if (isset($_POST["submit"])) {
 
-  $title = $_POST['title'];
+  $title = $conn -> real_esacape_string($_POST['title']);
   
-  $msg = $_POST['msg'];
+  $msg = $conn -> real_escape_string($_POST['msg']);
 
   // get id of last post 
   // $last_id = $conn -> insert_id + 1;

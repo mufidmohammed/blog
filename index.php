@@ -14,7 +14,7 @@ if (! isset($_SESSION['userid'])) {
 $userid = $_SESSION['userid'];
   
 $posts = all_post($conn);
-$popular = popular_posts($conn);
+$popular_posts = popular_posts($conn);
 
 $user = get_user_by_id($userid, $conn);
 
@@ -122,26 +122,11 @@ $user = get_user_by_id($userid, $conn);
       <h4>Popular Posts</h4>
     </div>
     <ul class="w3-ul w3-hoverable w3-white">
-      <li class="w3-padding-16">
-        <img src="images/workshop.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"><?= $popular['title'] ?? "Lorem"; ?></span><br>
-        <span>Sed mattis nunc</span>
-      </li>
-      <li class="w3-padding-16">
-        <img src="images/gondol.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"><?= $popular['title'] ?? "Ipsum"; ?></span><br>
-        <span>Praes tinci sed</span>
-      </li> 
-      <li class="w3-padding-16">
-        <img src="images/skies.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"><?= $popular['title'] ?? "Dorum"; ?></span><br>
-        <span>Ultricies congue</span>
-      </li>   
-      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-        <img src="images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"><?= $popular['title'] ?? "Mingsum"; ?></span><br>
-        <span>Lorem ipsum dipsum</span>
-      </li>  
+      <?php foreach($popular_posts as $popular): ?>
+        <li class="w3-padding-16">
+          <span class="w3-medium"><?= $popular['title'] ?? "Untitled post" ?></span><br>
+        </li>
+      <?php endforeach ?>
     </ul>
   </div>
   <hr>   
